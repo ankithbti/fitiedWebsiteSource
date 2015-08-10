@@ -1,0 +1,22 @@
+@font-face {
+    font-family: Montserrat-Hairline;
+    src: url("../fonts/Montserrat-Hairline.otf");
+}
+
+@font-face {
+    font-family: Montserrat-Regular;
+    src: url("../fonts/Montserrat-Regular.otf");
+}
+
+@font-face {
+    font-family: Montserrat-UltraLight;
+    src: url("../fonts/Montserrat-UltraLight.otf");
+}
+
+
+body{
+	background-color: #f1f1f1;
+	margin: 0px;
+	padding: 0px;
+	font-family: Montserrat-Hairline;
+}
