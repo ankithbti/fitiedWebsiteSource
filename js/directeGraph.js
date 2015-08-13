@@ -20,6 +20,20 @@ $(function(){ // on dom ready
   
   drawDirectedGraph();
 
+  var bfs = cy.elements().bfs('#SampleSource', function(){}, true);
+
+var i = 0;
+var highlightNextEle = function(){
+  bfs.path[i].addClass('highlighted');
+  
+  if( i < bfs.path.length ){
+    i++;
+    setTimeout(highlightNextEle, 1000);
+  }
+};
+
+// kick off first highlight
+highlightNextEle();
 
 
 
@@ -74,8 +88,6 @@ cy = cytoscape({
       selector: 'node',
       css: {
         'content': 'data(id)',
-        'text-valign': 'center',
-        'text-halign': 'center'
       }
     },
     {
@@ -92,7 +104,10 @@ cy = cytoscape({
     {
       selector: 'edge',
       css: {
-        'target-arrow-shape': 'triangle'
+        'target-arrow-shape': 'triangle',
+        'width': 4,
+        'line-color': '#ddd',
+        'target-arrow-color': '#ddd'
       }
     },
     {
@@ -103,13 +118,25 @@ cy = cytoscape({
         'target-arrow-color': 'black',
         'source-arrow-color': 'black'
       }
+    },
+    {
+      selector: '.highlighted',
+      css: {
+        'background-color': '#61bffc',
+        'line-color': '#61bffc',
+        'target-arrow-color': '#61bffc',
+        'transition-property': 'background-color, line-color, target-arrow-color',
+        'transition-duration': '0.5s'
+      }
     }
   ],
   
   
   layout: {
     name: 'cose',
-    padding: 5
+    padding: 50,
+    directed: true,
+    roots: '#SampleSource'
   }
 });
 
@@ -117,13 +144,12 @@ cy = cytoscape({
 for(i = 0 ; i < sourceNodes.length ; ++i){
   cy.add([
 
-    { group: "nodes", data: { id: sourceNodes[i] }, position: { x: 600*(i+1), y: 400 } }
+    { group: "nodes", data: { id: sourceNodes[i] }, position: { x: 600*(i+1), y: 200 } }
   
   ]);
   cy.nodes("[id=" + "'" + sourceNodes[i] + "'" + "]").style({
     'background-color': 'green',
-    'width': '70px',
-    'height': '30px',
+    'width': 'auto',
     'font': 'vedana',
     'font-size': '5px'
   });
@@ -133,14 +159,13 @@ for(i = 0 ; i < sourceNodes.length ; ++i){
 for(i = 0 ; i < epNodes.length ; ++i){
   cy.add([
 
-    { group: "nodes", data: { id: epNodes[i] }, position: { x: 300*(i+1), y: 600 } }
+    { group: "nodes", data: { id: epNodes[i] }, position: { x: 300*(i+1), y: 400 } }
   
   ]);
 
   cy.nodes("[id=" + "'" + epNodes[i] + "'" + "]").style({
     'background-color': 'yellow',
-    'width': '70px',
-    'height': '30px',
+    'width': 'auto',
     'font': 'vedana',
     'font-size': '5px'
   });
@@ -149,14 +174,13 @@ for(i = 0 ; i < epNodes.length ; ++i){
 for(i = 0 ; i < stageNodes.length ; ++i){
   cy.add([
 
-    { group: "nodes", data: { id: stageNodes[i] }, position: { x: 400*(i+1), y: 200 } }
+    { group: "nodes", data: { id: stageNodes[i] }, position: { x: 400*(i+1), y: 600 } }
   
   ]);
 
   cy.nodes("[id=" + "'" + stageNodes[i] + "'" + "]").style({
     'background-color': 'gray',
-    'width': '70px',
-    'height': '30px',
+    'width': 'auto',
     'font': 'vedana',
     'font-size': '5px'
   });
